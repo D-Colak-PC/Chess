@@ -6,33 +6,32 @@ from board import draw_board, parse_FEN, draw_selected_square
 from sound import play_effect
 
 import pygame as pg
-
+import numpy as np
+from typing import List, Tuple, Dict
 
 
 def main():
-    
-    parsed_FEN = parse_FEN(STARTING_POSITION)
-    internal_board = parsed_FEN["internal board"]
-    turn_to_move = parsed_FEN["turn to move"]
-    halfmove_clock = parsed_FEN["halfmove clock"]
-    fullmove_number = parsed_FEN["fullmove number"]
+    parsed_FEN: Dict[str, np.ndarray | str | List[bool] | str | int] = parse_FEN(STARTING_POSITION)
+    internal_board: np.ndarray = parsed_FEN["internal board"]
+    turn_to_move: str = parsed_FEN["turn to move"]
+    halfmove_clock: int = parsed_FEN["halfmove clock"]
+    fullmove_number : int= parsed_FEN["fullmove number"]
 
     pg.init()
     pg.mixer.init()
-    screen = pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    screen: pg.Surface = pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pg.display.set_caption(WINDOW_TITLE)
     # print("Pygame window started")
     play_effect("game_start")
     
-    coordinates_of_last_piece = [-1, -1]
-    piece_selected = False
+    coordinates_of_last_piece: List[int] = [-1, -1]
+    piece_selected: bool = False
     
-    running = True
+    running: bool = True
     while running:
-        
-        mouse_pos = pg.mouse.get_pos()
-        mouse_col = mouse_pos[0] // SQUARE_SIZE
-        mouse_row = mouse_pos[1] // SQUARE_SIZE
+        mouse_pos: Tuple[int, int] = pg.mouse.get_pos()
+        mouse_col: int = mouse_pos[0] // SQUARE_SIZE
+        mouse_row: int = mouse_pos[1] // SQUARE_SIZE
         
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -121,4 +120,3 @@ def main():
 if __name__ == '__main__':
     # print("Program started")
     main()
-    

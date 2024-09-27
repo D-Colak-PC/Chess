@@ -1,13 +1,17 @@
 from .piece import Piece
 
+import numpy as np
+from typing import List, Tuple
+
 
 class Bishop(Piece):
-    def __init__(self, color, x, y):
+    def __init__(self, color: str, x: int, y: int):
         super().__init__(color, x, y)
         
+        
     @staticmethod
-    def get_valid_moves_from_pos(board, color, row, col):
-        valid_moves = []
+    def get_valid_moves_from_pos(board: np.ndarray, color: str, row: int, col: int) -> List[Tuple[int, int]]:
+        valid_moves: List[Tuple[int, int]] = []
         
         for dx in [-1, 1]:
             for dy in [-1, 1]:
@@ -25,8 +29,9 @@ class Bishop(Piece):
         
         return valid_moves
     
-    def get_valid_moves(self, board):
-        valid_moves = []
+    
+    def get_valid_moves(self, board: np.ndarray) -> List[Tuple[int, int]]:
+        valid_moves: List[Tuple[int, int]] = []
         
         for dx in [-1, 1]:
             for dy in [-1, 1]:

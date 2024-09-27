@@ -1,11 +1,16 @@
 from .piece import Piece
 
+import numpy as np
+from typing import List, Tuple
+
+
 class Pawn(Piece):
-    def __init__(self, color, x, y):
+    def __init__(self, color: str, x: int, y: int):
         super().__init__(color, x, y)
         
-    def get_valid_moves(self, board):
-        valid_moves = []
+        
+    def get_valid_moves(self, board: np.ndarray) -> List[Tuple[int, int]]:
+        valid_moves: List[Tuple[int, int]] = []
         
         new_x, new_y = self.row + self.dir, self.col # move one square forward
         if 0 <= new_x < 8: # check if the new position is within the board

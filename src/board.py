@@ -3,8 +3,10 @@ import pieces
 
 import pygame as pg
 import numpy as np
+from typing import Dict, Union, List
 
-def draw_board(screen):
+
+def draw_board(screen: pg.Surface) -> None:
     for row in range(8):
         for col in range(8):
             if (row + col) % 2 == 0:  # Simplified condition for light squares
@@ -19,7 +21,7 @@ def draw_board(screen):
                           SQUARE_SIZE))
 
 
-def draw_selected_square(screen, row, col):
+def draw_selected_square(screen: pg.Surface, row: int, col: int) -> None:
     pg.draw.rect(screen, pg.Color(SELECTED_SQUARE_COLOR),
                  (col * SQUARE_SIZE,
                   row * SQUARE_SIZE,
@@ -27,8 +29,8 @@ def draw_selected_square(screen, row, col):
                   SQUARE_SIZE))
     
     
-def parse_FEN(fen):
-    internal_board = np.zeros((8, 8), dtype=object)
+def parse_FEN(fen: str) -> Dict[str, np.ndarray | str | List[bool] | str | int]:
+    internal_board: np.ndarray = np.zeros((8, 8), dtype=object)
     fen_sections = fen.split(' ')
     
     for i, row in enumerate(fen_sections[0].split('/')):
@@ -57,8 +59,8 @@ def parse_FEN(fen):
         turn_to_move = 'black'
         
     castling_rights = fen_sections[2]
-    white_castling_rights = ['K' in castling_rights, 'Q' in castling_rights]
-    black_castling_rights = ['k' in castling_rights, 'q' in castling_rights]
+    white_castling_rights: List[bool] = ['K' in castling_rights, 'Q' in castling_rights]
+    black_castling_rights: List[bool] = ['k' in castling_rights, 'q' in castling_rights]
     
     en_passant_target = fen_sections[3]
     halfmove_clock = int(fen_sections[4])

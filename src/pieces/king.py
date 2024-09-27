@@ -1,15 +1,20 @@
 from .piece import Piece
 
+import numpy as np
+from typing import List, Tuple
+
+
 class King(Piece):
-    def __init__(self, color, x, y):
+    def __init__(self, color: str, x: int, y: int):
         super().__init__(color, x, y)
+      
         
-    def get_valid_moves(self, board):
-        deltas = [(-1, -1), (-1, 0 ), (-1, 1 ),
-                  (0 , -1),           (0 , 1 ),
-                  (1 , -1), (1 , 0 ), (1 , 1 )]
+    def get_valid_moves(self, board: np.ndarray) -> List[Tuple[int, int]]:
+        deltas: List[Tuple[int, int]] = [(-1, -1), (-1, 0 ), (-1, 1 ),
+                                         (0 , -1),           (0 , 1 ),
+                                         (1 , -1), (1 , 0 ), (1 , 1 )]
         
-        valid_moves = []
+        valid_moves: List[Tuple[int, int]] = []
         
         for dx, dy in deltas:
             new_x, new_y = self.row + dx, self.col + dy
