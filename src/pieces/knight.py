@@ -1,13 +1,18 @@
 from .piece import Piece
 
+import numpy as np
+from typing import List, Tuple
+
+
 class Knight(Piece):
-    def __init__(self, color, x, y):
+    def __init__(self, color: str, x: int, y: int):
         super().__init__(color, x, y)
         
-    def get_valid_moves(self, board):
-        deltas = [(-2, -1), (-2, 1), (2, -1), (2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2)]
         
-        valid_moves = []
+    def get_valid_moves(self, board: np.ndarray) -> List[Tuple[int, int]]:
+        deltas: List[Tuple[int, int]] = [(-2, -1), (-2, 1), (2, -1), (2, 1), (-1, -2), (-1, 2), (1, -2), (1, 2)]
+        
+        valid_moves: List[Tuple[int, int]] = []
         
         for dx, dy in deltas:
             new_x, new_y = self.row + dx, self.col + dy
