@@ -2,13 +2,17 @@ import yaml
 from pathlib import Path
 from typing import Dict
 
+import logging
+logger = logging.getLogger(__name__)
+
+
 # Load configuration from YAML
 config_path = Path(__file__).resolve().parents[1] / "config.yaml"
 try:
     with open(config_path, 'r') as file:
         config = yaml.safe_load(file)
 except FileNotFoundError:
-    print(f"Configuration file not found at {config_path}")
+    logger.exception(f"Configuration file not found at {config_path}")
     raise SystemExit(0)
 
 # Extract window configuration

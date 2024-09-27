@@ -6,6 +6,8 @@ import pygame.gfxdraw as gfxdraw
 from pathlib import Path
 from typing import List, Tuple
 
+import logging
+logger = logging.getLogger(__name__)
 
 
 class Piece:
@@ -26,7 +28,7 @@ class Piece:
         
     def _generate_image_file_path(self) -> str | Path:
         file_path = Path(__file__).resolve().parents[2] / "assets" / "img" / "png" / self.color / f"{self.image_file_name}.png"
-        # print(f"Image file path: {file_path}")
+        logger.debug(f"Image file path: {file_path}") #? Logging
         return file_path
     
     

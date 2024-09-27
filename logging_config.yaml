@@ -1,0 +1,28 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  console:
+    format: "%(levelname)s - %(message)s"
+  file:
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: console
+    stream: ext://sys.stdout
+    level: INFO
+  file:
+    class: logging.FileHandler
+    formatter: file
+    encoding: utf-8
+    level: DEBUG
+
+loggers:
+  root:
+    level: DEBUG
+    handlers:
+      - console
+      - file
+    propagate: true

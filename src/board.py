@@ -5,6 +5,9 @@ import pygame as pg
 import numpy as np
 from typing import Dict, Union, List
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 def draw_board(screen: pg.Surface) -> None:
     for row in range(8):
@@ -48,7 +51,7 @@ def parse_FEN(fen: str) -> Dict[str, np.ndarray | str | List[bool] | str | int]:
             class_name = PIECES_TO_NAMES[char.lower()]
             piece = getattr(pieces, class_name)
             internal_board[i][col] = piece(color, i, col)
-            # print(f"Placed {color} {class_name} at {i}, {col}")
+            logger.debug(f"Placed {color} {class_name} at {i}, {col}")
             
             col += 1
     

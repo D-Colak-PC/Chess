@@ -1,6 +1,10 @@
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
+import logging
+from logger import setup_logging
+logger = logging.getLogger(__name__)
+
 from consts import *
 from board import draw_board, parse_FEN, draw_selected_square
 from sound import play_effect
@@ -11,6 +15,8 @@ from typing import List, Tuple, Dict
 
 
 def main():
+    setup_logging()
+    logger.info("Program started") #? Logging
     parsed_FEN: Dict[str, np.ndarray | str | List[bool] | str | int] = parse_FEN(STARTING_POSITION)
     internal_board: np.ndarray = parsed_FEN["internal board"]
     turn_to_move: str = parsed_FEN["turn to move"]
@@ -21,7 +27,7 @@ def main():
     pg.mixer.init()
     screen: pg.Surface = pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pg.display.set_caption(WINDOW_TITLE)
-    # print("Pygame window started")
+    logger.info("Pygame window started") #? Logging
     play_effect("game_start")
     
     coordinates_of_last_piece: List[int] = [-1, -1]
@@ -39,19 +45,20 @@ def main():
             
             # selecting a piece
             if event.type == pg.MOUSEBUTTONDOWN:
+                logger.debug(f"Selected sqaure: {mouse_row}, {mouse_col}") #? Logging
                 if internal_board[mouse_row][mouse_col] == 0:
-                    # print("Invalid selection: no piece there")
+                    logger.info("Invalid selection: no piece there") #? Logging
                     continue
                 
                 if internal_board[mouse_row][mouse_col].color != turn_to_move:
-                    # print(f"Invalid selection: {turn_to_move} to move")
+                    logger.info(f"Invalid selection: {turn_to_move} to move") #? Logging
                     continue
                 
                 coordinates_of_last_piece = [mouse_row, mouse_col]
                 internal_board[mouse_row][mouse_col].select()
                 piece_selected = True
-                # print(f"Selected piece: {internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]]}")
-                # print(f"Valid moves: {internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]].get_valid_moves(internal_board)}")
+                logger.debug(f"Selected piece: {internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]]}") #? Logging
+                logger.debug(f"Valid moves: {internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]].get_valid_moves(internal_board)}") #? Logging
                 
             # releasing a piece
             if event.type == pg.MOUSEBUTTONUP:
@@ -59,13 +66,13 @@ def main():
                     continue
                 
                 if not internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]].is_valid_move(internal_board, mouse_row, mouse_col):
-                    # print("Invalid move: piece can't move there")
-                    # print(f"Mouse Coords: {mouse_row}, {mouse_col}")
+                    logger.info("Invalid move: piece can't move there") #? Logging
+                    logger.debug(f"Mouse Coords: {mouse_row}, {mouse_col}") #? Logging
                     internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]].remove_selection()
                     play_effect("illegal")
                     
                 else:
-                    # print("Valid move")
+                    logger.debug("Valid move") #? Logging
                     if internal_board[mouse_row][mouse_col] != 0:
                         play_effect("capture")
                     elif turn_to_move == "white":
@@ -77,7 +84,7 @@ def main():
                     internal_board[mouse_row][mouse_col].deselect()
                     internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]] = 0
                     coordinates_of_last_piece = [mouse_row, mouse_col]
-                    # print(f"board state:\n{internal_board}")
+                    logger.debug(f"board state:\n{internal_board}") #? Logging
                     
                     halfmove_clock += 1
                     halfmove_clock %= 2
@@ -88,7 +95,7 @@ def main():
                         turn_to_move = "white"
                         fullmove_number += 1
                         
-                    # print(f"halfmove clock: {halfmove_clock}, fullmove number: {fullmove_number}")
+                    logger.debug(f"halfmove clock: {halfmove_clock}, fullmove number: {fullmove_number}") #? Logging
             
                 piece_selected = False
                                         
@@ -118,5 +125,4 @@ def main():
         
         
 if __name__ == '__main__':
-    # print("Program started")
     main()
