@@ -1,0 +1,40 @@
+---
+logs:
+  console:
+    enabled: true
+    level: DEBUG
+  file:
+    enabled: true
+    level: INFO
+
+window:
+  width: 600
+  height: 600
+  title: "Chess (Dennis)"
+
+fps: 60
+
+board:
+  width: 600
+  height: 600
+
+valid_square_dot_radius: 10
+    
+
+colors:
+  dark_square_color: "#aa9468"
+  light_square_color: "#f8e7bb"
+  selected_square_color: "#f2ca5c" 
+  valid_square_color: "#ff0000"
+
+fen:
+  start: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  example: "4kb1r/p4ppp/4q3/8/8/1B6/PPP2PPP/2KR4 w - k 2 1"
+
+pieces_to_names:
+  r: "Rook"
+  n: "Knight"
+  b: "Bishop"
+  q: "Queen"
+  k: "King"
+  p: "Pawn"
