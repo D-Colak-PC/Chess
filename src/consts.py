@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 # Load configuration from YAML
-config_path = Path(__file__).resolve().parents[1] / "config.yaml"
+config_path = Path(__file__).resolve().parents[1] / ".config" / "config.yaml"
 try:
     with open(config_path, 'r') as file:
         config = yaml.safe_load(file)

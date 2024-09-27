@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime   
 
 def setup_logging():
-    config_path = Path(__file__).resolve().parents[1] / "logging_config.yaml"
+    config_path = Path(__file__).resolve().parents[1] / ".config" / "logging_config.yaml"
     try:
         with open(config_path, 'r') as file:
             logging_config = yaml.safe_load(file)

@@ -5,7 +5,7 @@ import logging
 from logger import setup_logging
 logger = logging.getLogger(__name__)
 
-from consts import *
+from consts import WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, SQUARE_SIZE, STARTING_POSITION
 from board import draw_board, parse_FEN, draw_selected_square
 from sound import play_effect
 
