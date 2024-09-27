@@ -3,6 +3,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 from consts import *
 from board import draw_board, parse_FEN, draw_selected_square
+from sound import play_effect
 
 import pygame as pg
 
@@ -17,9 +18,11 @@ def main():
     fullmove_number = parsed_FEN["fullmove number"]
 
     pg.init()
+    pg.mixer.init()
     screen = pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pg.display.set_caption(WINDOW_TITLE)
     # print("Pygame window started")
+    play_effect("game_start")
     
     coordinates_of_last_piece = [-1, -1]
     piece_selected = False
@@ -58,11 +61,19 @@ def main():
                 
                 if not internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]].is_valid_move(internal_board, mouse_row, mouse_col):
                     # print("Invalid move: piece can't move there")
-                    logger.debug(f"Mouse Coords: {mouse_row}, {mouse_col}")
+                    # print(f"Mouse Coords: {mouse_row}, {mouse_col}")
                     internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]].remove_selection()
+                    play_effect("illegal")
                     
                 else:
                     # print("Valid move")
+                    if internal_board[mouse_row][mouse_col] != 0:
+                        play_effect("capture")
+                    elif turn_to_move == "white":
+                        play_effect("move_self")
+                    elif turn_to_move == "black":
+                        play_effect("move_opponent")
+                    
                     internal_board[mouse_row][mouse_col] = internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]]
                     internal_board[mouse_row][mouse_col].deselect()
                     internal_board[coordinates_of_last_piece[0]][coordinates_of_last_piece[1]] = 0
